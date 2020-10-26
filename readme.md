@@ -14,11 +14,7 @@ The steps are as follows:
     2. Open a new shell/command prompt. It must be new since only a new shell will include the new python 
        path that was created in step 1. Cd to the folder where you want to install the scripts.
     
-    3. Clone this repo using the following command:
-    
-       git clone git@github.com:wks-sumo-logic/toolbox.git
-
-    This will create a new folder toolbox
+    3. Clone this repo using the following command. This would create a new drectory
     
     4. Change into the folder. Type the following to install all the package dependencies 
        (this may take a while as this will download all of the libraries that it uses):
