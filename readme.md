@@ -24,23 +24,13 @@ The steps are as follows:
 Dependencies
 ============
 
-This should be minimal, if there are requirements outside of the scripts, they will be listed as a 
-file to include and drive installs from.
-
-Script Names and Purposes
-=========================
-
-    1. cidrcat.py - cheerful and easy way to enumerate a network block based on base IP and netmask
-                   
-To Do List:
-===========
-
-* Add extra scripts
+This should be minimal, if there are requirements outside of the scripts, 
+they will be listed as a file to include and drive installs from.
 
 License
 =======
 
-Copyright 2019 Wayne Kirk Schmidt
+Copyright 2020 Wayne Kirk Schmidt
 
 Licensed under the GNU GPL License (the "License");
 you may not use this file except in compliance with the License.
