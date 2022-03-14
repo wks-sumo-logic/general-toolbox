@@ -1,0 +1,4 @@
+EVT_DMPDIR=C:\Windows\Temp\EvtDump\out
+EVT_LOGDIR=C:\Windows\Temp\EvtDump\log
+EVT_ERRDIR=C:\Windows\Temp\EvtDump\err
+EVT_LIST=Application Security System

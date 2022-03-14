@@ -1,0 +1,11 @@
+@echo off
+cls
+setlocal enabledelayedexpansion
+set "_DRIVELIST.LETTERS.FREE=Z Y X W V U T S R Q P O N M L K J I H G F E D C B A "
+for /f "skip=1 tokens=1,2 delims=: " %%a in ('wmic logicaldisk get deviceid^,volumename') do (
+   set "_DRIVELIST.LETTERS.USED=!_DRIVELIST.LETTERS.USED!%%a,%%b@"
+   set "_DRIVELIST.LETTERS.FREE=!_DRIVELIST.LETTERS.FREE:%%a =!"
+)
+set _DRIVELIST.LETTERS.USED=%_DRIVELIST.LETTERS.USED:~0,-2%
+set _DRIVELIST.LETTERS.USED=%_DRIVELIST.LETTERS.USED:,@=, @%
+set _DRIVELIST.LETTERS

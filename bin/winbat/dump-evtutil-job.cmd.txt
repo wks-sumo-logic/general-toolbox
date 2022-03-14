@@ -1,0 +1,85 @@
+::::
+:::: Launcher script:
+:::: Author: "Wayne Schmidt" <wayne.kirk.schmidt@gmail.com>
+::::
+::::
+:::: Usage: 
+::::	<script> /?             -- prints this help file
+::::	<script> <configfile>   -- launches this script
+::::  
+@echo OFF
+setlocal enableDelayedExpansion
+chcp 65001
+
+set MyFile=%~f0
+
+if [%1]==[/?] goto :HelpMessage
+
+echo %* |find "/?" > nul
+if errorlevel 1 goto :MainCode
+
+:HelpMessage
+for /F "delims=" %%a in ('type %MyFile% ^| findstr "^::::"') do ( 
+	 set LINE=%%a
+	 set _stripped=!LINE:~2!
+	 echo !_stripped!
+)
+goto :End
+
+:MainCode
+
+:: Collect the configuration file for the job
+:: Using only 1 input, and relying on the config file to bootstrap the rest
+set configfile=%~dfp1
+if not exist %configfile% exit /b
+
+:: Set Environment Variables from Supplied Configuration File
+for /f "delims== tokens=1,2" %%G in (%configfile%) do set %%G=%%H
+
+:: Array of Events from the EventExport for the job
+set index=0
+for %%A in (%EVT_List%) do (
+    set Array[!index!] = %%A
+    set /a index += 1
+)
+
+:: Test for all of the directory existence
+for /D %%D in ( %EVT_DMPDIR% %EVT_LOGDIR% %EVT_ERRDIR% ) do (
+    PUSHD %%D && POPD || (
+        ECHO %%D does NOT exist
+	    exit /b
+	)
+)
+
+:: Set Time and Date variables
+for /f %%X in ('wmic path win32_localtime get /format:list ^| findstr "="') do set %%X
+
+:: Fix up time variables if they are single digit
+IF %Month%  LSS 10 SET Day=0%Month%
+IF %Day%    LSS 10 SET Day=0%Day%
+IF %Hour%   LSS 10 SET Day=0%Hour%
+IF %Minute% LSS 10 SET Day=0%Minute%
+
+:: Set variables for the error and output files
+set DateStamp=%Year%%Month%%Day%
+set TimeStamp=%Hour%%Minute%
+set LogStamp=%DateStamp%.%TimeStamp%
+
+set JobName=EventDump
+
+:: Output Commands necessary to execute the job. 
+for /F "tokens=2 delims==" %%S in ('set Array[') do (
+    setlocal enabledelayedexpansion
+	set String=%%~nS
+    set String=!String: =!
+	set ErrFile=%EVT_ERRDIR%\%JobName%.!String!.%LogStamp%.err.txt
+	set Logfile=%EVT_LOGDIR%\%JobName%.!String!.%LogStamp%.out.txt
+	echo Exporting !String!
+	wevtutil epl !String! /ow:true %EVT_DMPDIR%\!String!.evtx > !LogFile! 2> !ErrFile!
+	:: wevtutil qe !String! /count:100 /format:text
+    powershell -Command "& {Get-WinEvent -Path %EVT_DMPDIR%\!String!.evtx | Export-CSV %EVT_DMPDIR%\!String!.csv }"	
+) 
+
+GOTO :End
+
+:End
