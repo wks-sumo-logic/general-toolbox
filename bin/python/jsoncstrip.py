@@ -2,24 +2,16 @@
 # -*- coding: utf-8 -*-
 
 """
-Explanation: removes comments from json files
-
-Usage:
-   $ python  jsoncstrip [ options ]
-
 Style:
-   Google Python Style Guide:
-   http://google.github.io/styleguide/pyguide.html
-
-    @name           jsoncstrip
-    @version        1.0.0
+    Google Python Style Guide:
+    http://google.github.io/styleguide/pyguide.html
+    @version        1.0.00
     @author-name    Wayne Schmidt
     @author-email   wayne.kirk.schmidt@gmail.com
-    @license-name   GNU GPL
-    @license-url    http://www.gnu.org/licenses/gpl.html
+    @license-name   APACHE 2.0
+    @license-url    http://www.apache.org/licenses/LICENSE-2.0
 """
-
-__version__ = '1.0.0'
+__version__ = 1.00
 __author__ = "Wayne Schmidt (wayne.kirk.schmidt@gmail.com)"
 
 import argparse
@@ -72,7 +64,7 @@ if __name__ == "__main__":
     for file in ARGS.srcs:
         STAGE0_JSON = ""
         filepath = os.path.abspath(file)
-        with open(filepath, 'r') as file:
+        with open(filepath, 'r', encoding='utf8') as file:
             STAGE0_JSON = file.read()
             STAGE1_JSON = remove_comments(STAGE0_JSON)
             STAGE2_JSON = remove_trailing_commas(STAGE1_JSON)

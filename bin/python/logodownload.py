@@ -1,9 +1,18 @@
 #!/usr/bin/env python3
-"""
-Download Logos from:
+# -*- coding: utf-8 -*-
 
-https://logo.clearbit.com/<company_domain_name>
 """
+Style:
+    Google Python Style Guide:
+    http://google.github.io/styleguide/pyguide.html
+    @version        1.0.00
+    @author-name    Wayne Schmidt
+    @author-email   wayne.kirk.schmidt@gmail.com
+    @license-name   APACHE 2.0
+    @license-url    http://www.apache.org/licenses/LICENSE-2.0
+"""
+__version__ = 1.00
+__author__ = "Wayne Schmidt (wayne.kirk.schmidt@gmail.com)"
 
 import shutil
 import os
@@ -31,11 +40,11 @@ status = response.status_code
 print(status)
 
 if status != 200:
-    with open(ERR_FILE, 'w') as errors_file:
-        errors_file.write('{},{},{},{}'.format(status,DNS_NAME,URL_NAME,IMG_FILE))
+    with open(ERR_FILE, 'w', encoding='utf8') as errors_file:
+        errors_file.write(f'{status},{DNS_NAME},{URL_NAME},{IMG_FILE}')
 
 if status == 200:
-    with open(IMG_FILE, 'wb') as output_image:
+    with open(IMG_FILE, 'wb', encoding='utf8') as output_image:
         shutil.copyfileobj(response.raw, output_image)
 
 del response

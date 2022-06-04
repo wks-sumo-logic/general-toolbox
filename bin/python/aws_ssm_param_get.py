@@ -1,11 +1,20 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
 """
-Sample Driver for AWS SSM parameter retrieval
+Style:
+    Google Python Style Guide:
+    http://google.github.io/styleguide/pyguide.html
+    @version        1.0.00
+    @author-name    Wayne Schmidt
+    @author-email   wayne.kirk.schmidt@gmail.com
+    @license-name   APACHE 2.0
+    @license-url    http://www.apache.org/licenses/LICENSE-2.0
 """
+__version__ = 1.00
+__author__ = "Wayne Schmidt (wayne.kirk.schmidt@gmail.com)"
 
 import sys
-import pprint
 import boto3
 
 if len(sys.argv) > 1:
@@ -13,7 +22,7 @@ if len(sys.argv) > 1:
 else:
     sys.exit('Need to provide an argument please.')
 
-print('INPUT: {}'.format(CMD_INPUT))
+print(f'INPUT: {CMD_INPUT}')
 
 AWS_PARAM = 'UNSET'
 
@@ -24,10 +33,10 @@ paramname = aws:ssm:us-east-1:sampleparam
 if "aws:ssm:" in CMD_INPUT:
     VENDOR, METHOD, REGION, TOKENS = CMD_INPUT.split(':')
 
-    print('VENDOR: {}'.format(VENDOR))
-    print('METHOD: {}'.format(METHOD))
-    print('REGION: {}'.format(REGION))
-    print('TOKENS: {}'.format(TOKENS))
+    print(f'VENDOR: {VENDOR}')
+    print(f'METHOD: {METHOD}')
+    print(f'REGION: {REGION}')
+    print(f'TOKENS: {TOKENS}')
 
     ssmobject = boto3.client(METHOD, region_name=REGION)
 
@@ -36,7 +45,7 @@ if "aws:ssm:" in CMD_INPUT:
         WithDecryption=True
     )
 
-    pprint.pprint(ssmresponse)
+    print(f'{ssmresponse}')
     AWS_PARAM = ssmresponse['Parameters'][0]['Value']
 
-print('AWSPARAM: {}'.format(AWS_PARAM))
+print(f'AWSPARAM: {AWS_PARAM}')

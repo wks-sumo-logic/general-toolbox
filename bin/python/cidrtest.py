@@ -2,25 +2,17 @@
 # -*- coding: utf-8 -*-
 
 """
-Exaplanation: cidrtest - is an IP is contained within a CIDR block
-
-Usage:
-   $ python  cidrtest [ options ]
-
 Style:
-   Google Python Style Guide:
-   http://google.github.io/styleguide/pyguide.html
-
-    @name           cidrtest
-    @version        1.00
+    Google Python Style Guide:
+    http://google.github.io/styleguide/pyguide.html
+    @version        1.0.00
     @author-name    Wayne Schmidt
-    @author-email   wschmidt@sumologic.com
-    @license-name   GNU GPL
-    @license-url    http://www.gnu.org/licenses/gpl.html
+    @author-email   wayne.kirk.schmidt@gmail.com
+    @license-name   APACHE 2.0
+    @license-url    http://www.apache.org/licenses/LICENSE-2.0
 """
-
-__version__ = '1.0.0'
-__author__ = "Wayne Schmidt (wschmidt@sumologic.com)"
+__version__ = 1.00
+__author__ = "Wayne Schmidt (wayne.kirk.schmidt@gmail.com)"
 
 import sys
 import ipaddress
@@ -29,7 +21,7 @@ sys.dont_write_bytecode = 1
 
 PARSER = argparse.ArgumentParser(description="""
 
-cidrinout calculates if a address is in a specific cidr block.
+cidrtest calculates if a address is in a specific cidr block.
 currently expects an ipv4 address and can be adapted to other checks
 
 """)
@@ -43,7 +35,7 @@ try:
     TARGETCIDR = ARGS.cidrblock
     TARGETADDR = ARGS.ipaddress
 except KeyError as myerror:
-    print('Environment Variable Not Set :: {} '.format(myerror.args[0]))
+    print(f'Environment Variable Not Set :: {myerror.args[0]}')
 
 def main():
     """
@@ -56,9 +48,9 @@ def main():
     finalint = int(ipaddress.IPv4Address(finalip))
     targetint = int(ipaddress.IPv4Address(TARGETADDR))
     if firstint <= targetint <= finalint:
-        print('CIDR: {} contains Address: {}'.format(TARGETCIDR, TARGETADDR))
+        print(f'CIDR: {TARGETCIDR} contains Address: {TARGETADDR}')
     else:
-        print('CIDR: {} excludes Address: {}'.format(TARGETCIDR, TARGETADDR))
+        print(f'CIDR: {TARGETCIDR} excludes Address: {TARGETADDR}')
 
 if __name__ == '__main__':
     main()
